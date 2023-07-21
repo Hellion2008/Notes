@@ -2,7 +2,6 @@ import colorama
 from colorama import Fore, Back, Style
 import pathlib
 from pathlib import Path
-import json
 import datetime
 
 notes = {}
@@ -28,8 +27,9 @@ def main():
         create_note_json()   
       # elif key_input == 3:
       #     add_contact(file_path)
-      # elif key_input == 4:
-      #     change_contact(file_path, int(input('Введите id контакта: ')))
+      elif key_input == 4:
+         read_note()
+          # change_contact(file_path, int(input('Введите id контакта: ')))
       # elif key_input == 5:
       #     delete_contact(file_path, int(input('Введите id контакта: ')))
 
@@ -40,18 +40,11 @@ def main():
 def create_note_json():
   file_name = 1
   # id = id + 1
-  file_title = input('Введите заголовок: ')
-  file_text = input('Текст заметки: ')
+  file_title = input(Fore.YELLOW + 'Введите заголовок: ' + Fore.RESET)
+  file_text = input(Fore.YELLOW + 'Текст заметки: ' + Fore.RESET)
   time_create = datetime.datetime.now().strftime("%d-%b-%Y (%H:%M:%S)")
-  # new_note =("\{" 
-  #            "\tid: \"{}\""
-  #            "\ttitle: \"{}\""
-  #            "\ttext: \"{}\""
-  #            "\ttime_create: \"{}\""
-  #            "\ttime_change: -"
-  #            "\}".format(file_name, file_title, file_text, time_create))
-  # new_note = ("\{\tid: \"{}\"\ttitle: \"{}\"\ttext: \"{}\"\ttime_create: \"{}\"\ttime_change: -\}".format(file_name, file_title, file_text, time_create))
-  new_file = open(str(Path('notes', f'{file_name}.json')), "w+")
+  path_file = str(Path('notes', f'{file_name}.json'))
+  new_file = open(path_file, "w")
   new_file.write("{\n")
   new_file.write(f"\t\"id\": {file_name},\n")
   new_file.write(f"\t\"title\": \"{file_title}\",\n")
@@ -59,3 +52,26 @@ def create_note_json():
   new_file.write(f"\t\"time_create\": \"{time_create}\",\n")
   new_file.write("\t\"time_change\": \"-\"\n}")
   new_file.close
+  # notes[file_name] = path_file
+  print(Fore.GREEN + 'Вы создали новую заметку' + Fore.RESET)
+
+
+def read_note():
+   print()
+
+def load_from_json(file_path):
+   json_str = json_to_string(file_path)
+   json_list = json_to_string.split("\n")
+   json_dic = {}
+   for line in range(1, len(json_list)-2):
+      # key = line.split(":")
+      print()
+
+
+
+def json_to_string(file_path):
+  json = "" 
+  with open(file_path, 'r') as note:
+        for line in note:
+           json = json + line
+  return json

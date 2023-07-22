@@ -30,8 +30,8 @@ def main():
       elif key_input == 4:
          read_note()
           # change_contact(file_path, int(input('Введите id контакта: ')))
-      # elif key_input == 5:
-      #     delete_contact(file_path, int(input('Введите id контакта: ')))
+      elif key_input == 5:
+          delete_note(int(input('Введите номер заметки: ')))
 
       menu()
       key_input = int(input("Введите цифру: "))
@@ -55,17 +55,20 @@ def create_note_json():
   # notes[file_name] = path_file
   print(Fore.GREEN + 'Вы создали новую заметку' + Fore.RESET)
 
+def delete_note(id):
+    path_file = Path('notes', f'{id}.json')
+    path_file.unlink()
 
 def read_note():
    print()
 
 def load_from_json(file_path):
-   json_str = json_to_string(file_path)
-   json_list = json_to_string.split("\n")
-   json_dic = {}
-   for line in range(1, len(json_list)-2):
-      # key = line.split(":")
-      print()
+  json_str = json_to_string(file_path)
+  json_list = json_to_string.split("\n")
+  json_dic = {}
+  for line in range(1, len(json_list)-2):
+    index = line.find(':')
+
 
 
 

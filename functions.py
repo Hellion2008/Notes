@@ -28,10 +28,9 @@ def main():
       # elif key_input == 3:
       #     add_contact(file_path)
       elif key_input == 4:
-         read_note()
-          # change_contact(file_path, int(input('Введите id контакта: ')))
+         read_note(int(input(Fore.YELLOW + 'Введите номер заметки: ')))
       elif key_input == 5:
-          delete_note(int(input('Введите номер заметки: ')))
+          delete_note(int(input(Fore.YELLOW + 'Введите номер заметки: ')))
 
       menu()
       key_input = int(input("Введите цифру: "))
@@ -59,22 +58,36 @@ def delete_note(id):
     path_file = Path('notes', f'{id}.json')
     path_file.unlink()
 
-def read_note():
-   print()
+def read_note(id):
+   path_file = str(Path('notes', f'{id}.json'))
+   note_dic = load_from_json(path_file)
+   print('Заголовок: {}'.format(note_dic['title']))
+   print('Создано: {}'.format(note_dic['time_create']))
+   print('Изменено: {}'.format(note_dic['time_change']) + Fore.RESET)
+   print('{}'.format(note_dic['text']))
+
 
 def load_from_json(file_path):
-  json_str = json_to_string(file_path)
-  json_list = json_to_string.split("\n")
   json_dic = {}
-  for line in range(1, len(json_list)-2):
-    index = line.find(':')
-
-
-
-
-def json_to_string(file_path):
-  json = "" 
   with open(file_path, 'r') as note:
-        for line in note:
-           json = json + line
-  return json
+    for line in note:
+      index = line.find(':')
+      if index != -1:
+        key = line[:index].strip()
+        content = line[index+1:].strip()
+
+        key = key[1:len(key)-1]
+        if content.rfind('"') != -1:
+          content = content[1:content.rfind('"')]
+        else:
+          content = content[:content.rfind(',')]
+
+        json_dic[key] = content
+  return json_dic
+
+# def json_to_string(file_path):
+#   json = "" 
+#   with open(file_path, 'r') as note:
+#         for line in note:
+#            json = json + line
+#   return json

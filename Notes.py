@@ -10,5 +10,6 @@ from pathlib import Path
 # index = line.find(", ")
 # co = line[index +1:]
 # print(co)
+# print(functions.getId())
 main()
 # print(temp)
